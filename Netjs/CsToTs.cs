@@ -831,7 +831,10 @@ namespace Netjs
 					loopBlock.Statements.Add (loopSwitch);
 					loop.EmbeddedStatement = loopBlock;
 
-					var firstLabel = methodDeclaration.Body.Descendants.First (x => /*(x is GotoStatement) ||*/ (x is LabelStatement && HasGoto ((LabelStatement)x)));
+					var firstLabel = methodDeclaration.Body.Descendants.FirstOrDefault (x => /*(x is GotoStatement) ||*/ (x is LabelStatement && HasGoto ((LabelStatement)x)));
+					if (firstLabel == null) {
+						return;
+					}
 					var stmtRole = (Role<Statement>)firstLabel.Role;
 
 					var block = firstLabel.Parent;
